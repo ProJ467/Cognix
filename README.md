@@ -4,6 +4,14 @@
 
 > 🧠 Your AI. Your Windows. Your rules.
 
+## 🔑 OpenAI API Key
+
+Before running COGNIX, you need to configure your OpenAI API key.
+
+In **line ██**, type your OpenAI API key where the program asks for it.
+
+⚠️ **Never publish your API key on GitHub or share it with anyone.** Use an environment variable or another secure method whenever possible.
+
 ## ✨ What is COGNIX?
 
 COGNIX is a Python-based AI agent that can understand requests and use Windows tools to perform actions on your computer.
@@ -26,6 +34,7 @@ The goal is simple: build a personal Windows assistant that can do more than jus
 - 🔄 Scan Windows Update
 - 🪟 Install Windows updates with confirmation
 - 🗃️ Remember application paths using `app_paths.json`
+- 🎨 Customizable assistant name and settings
 - 🔐 Permission and security system
 - 🎤 Speech-to-Text support
 - 🔊 Text-to-Speech support
