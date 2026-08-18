@@ -223,8 +223,6 @@ def play_music(path: str) -> dict[str, Any]:
 
 
 def media_key(key: str) -> dict[str, Any]:
-    # Uses PowerShell only for the Windows media-key action.
-    # It is NOT arbitrary PowerShell execution.
     keys = {
         "play_pause": "0xB3",
         "stop": "0xB2",
@@ -361,7 +359,6 @@ def run_powershell(command: str) -> dict[str, Any]:
 # ============================================================
 
 def scan_windows_updates() -> dict[str, Any]:
-    """Only starts Windows Update scanning. It does not install anything."""
     try:
         completed = subprocess.run(
             ["UsoClient.exe", "StartScan"],
@@ -396,7 +393,6 @@ def install_windows_updates() -> dict[str, Any]:
     if not scan["success"]:
         return result(False, "Не удалось запустить предварительное сканирование.", scan=scan)
 
-    # Встроенный клиент Windows Update запускает установку найденных обновлений.
     try:
         completed = subprocess.run(
             ["UsoClient.exe", "StartInstall"],
@@ -419,90 +415,18 @@ def install_windows_updates() -> dict[str, Any]:
 # ============================================================
 
 TOOLS = [
-    {
-        "type": "function",
-        "name": "open_application",
-        "description": "Открывает безопасное приложение Windows из списка.",
-        "parameters": {"type": "object", "properties": {"app": {"type": "string"}}, "required": ["app"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "close_application",
-        "description": "Закрывает известное приложение Windows после подтверждения пользователя.",
-        "parameters": {"type": "object", "properties": {"app": {"type": "string"}}, "required": ["app"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "get_running_apps",
-        "description": "Получает список запущенных процессов Windows.",
-        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "play_music",
-        "description": "Открывает локальный музыкальный файл внутри workspace.",
-        "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "media_key",
-        "description": "Управляет воспроизведением: play_pause, stop, next или previous.",
-        "parameters": {"type": "object", "properties": {"key": {"type": "string", "enum": ["play_pause", "stop", "next", "previous"]}}, "required": ["key"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "open_website",
-        "description": "Открывает HTTP или HTTPS сайт в браузере.",
-        "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "show_message_box",
-        "description": "Показывает системное окно Windows после подтверждения.",
-        "parameters": {"type": "object", "properties": {"title": {"type": "string"}, "message": {"type": "string"}}, "required": ["title", "message"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "read_file",
-        "description": "Читает UTF-8 текстовый файл только внутри Cognix workspace.",
-        "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "write_file",
-        "description": "Создаёт или изменяет файл внутри Cognix workspace. Опасные расширения требуют подтверждения.",
-        "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "run_powershell",
-        "description": "Выполняет PowerShell только если ALLOW_POWERSHELL=True и пользователь подтвердил действие.",
-        "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"], "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "scan_windows_updates",
-        "description": "Запускает сканирование Windows Update без установки обновлений.",
-        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
-        "strict": True,
-    },
-    {
-        "type": "function",
-        "name": "install_windows_updates",
-        "description": "Запрашивает подтверждение, запускает предварительное сканирование и затем просит Windows начать установку обновлений.",
-        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
-        "strict": True,
-    },
+    {"type": "function", "name": "open_application", "description": "Открывает безопасное приложение Windows из списка.", "parameters": {"type": "object", "properties": {"app": {"type": "string"}}, "required": ["app"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "close_application", "description": "Закрывает безопасное приложение после подтверждения.", "parameters": {"type": "object", "properties": {"app": {"type": "string"}}, "required": ["app"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "get_running_apps", "description": "Возвращает список запущенных процессов Windows.", "parameters": {"type": "object", "properties": {}, "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "play_music", "description": "Открывает музыкальный файл из workspace.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "media_key", "description": "Нажимает безопасную системную медиа-клавишу Windows.", "parameters": {"type": "object", "properties": {"key": {"type": "string", "enum": ["play_pause", "stop", "next", "previous"]}}, "required": ["key"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "open_website", "description": "Открывает http/https сайт в браузере.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "show_message_box", "description": "Показывает системное окно Windows после подтверждения.", "parameters": {"type": "object", "properties": {"title": {"type": "string"}, "message": {"type": "string"}}, "required": ["title", "message"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "read_file", "description": "Читает файл внутри workspace.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "write_file", "description": "Создаёт или изменяет файл внутри workspace после подтверждения.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "run_powershell", "description": "Выполняет PowerShell только если ALLOW_POWERSHELL включён и пользователь подтвердил действие.", "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"], "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "scan_windows_updates", "description": "Запускает сканирование Windows Update без установки.", "parameters": {"type": "object", "properties": {}, "additionalProperties": False}, "strict": True},
+    {"type": "function", "name": "install_windows_updates", "description": "Запрашивает подтверждение, запускает предварительное сканирование и затем просит Windows начать установку обновлений.", "parameters": {"type": "object", "properties": {}, "additionalProperties": False}, "strict": True},
 ]
 
 TOOL_FUNCTIONS = {
@@ -530,6 +454,7 @@ SYSTEM_PROMPT = """
 Для изменения Windows, запуска программ, закрытия приложений и опасных действий уважай подтверждения Python.
 Если пользователь просит создать .ps1, это разрешено через write_file, но Python всё равно покажет подтверждение.
 Создание файла и выполнение файла являются разными действиями.
+Never execute a file merely because you created it.
 Не проси пользователя раскрывать API-ключ.
 """.strip()
 
@@ -546,7 +471,6 @@ def run_agent(user_text: str) -> str:
         tools=TOOLS,
     )
 
-    # Agent loop: model can call several tools in sequence.
     for _ in range(8):
         calls = [item for item in response.output if getattr(item, "type", None) == "function_call"]
 
@@ -573,12 +497,7 @@ def run_agent(user_text: str) -> str:
                     tool_result = result(False, f"Ошибка tool '{name}': {error}")
 
             print(f"  Result: {json_text(tool_result)[:3000]}")
-
-            outputs.append({
-                "type": "function_call_output",
-                "call_id": call.call_id,
-                "output": json_text(tool_result),
-            })
+            outputs.append({"type": "function_call_output", "call_id": call.call_id, "output": json_text(tool_result)})
 
         response = client.responses.create(
             model=MODEL,
