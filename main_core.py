@@ -1,0 +1,1 @@
+# This file contains the original Cognix core. It is stored separately so main.py can add the memory command layer.
