@@ -19,15 +19,34 @@ The goal is simple: build a personal Windows assistant that can do more than jus
 - 💬 Show Windows message boxes
 - 📋 Get running applications/processes
 - 📂 Read local files
-- ✏️ Write and update files
+- ✏️ Create, write and update files with explicit user permission
+- 🔐 HIGH-RISK confirmation for executable/script files such as `.ps1`, `.bat` and `.cmd`
 - 📜 Create scripts with permission checks
 - ⚡ PowerShell integration
 - 🔄 Scan Windows Update
 - 🪟 Install Windows updates with confirmation
 - 🗃️ Remember application paths using `app_paths.json`
 - 🔐 Permission and security system
-- 🎤 Speech-to-Text support planned/in development
-- 🔊 Text-to-Speech support planned/in development
+- 🎤 Speech-to-Text support
+- 🔊 Text-to-Speech support
+
+## 🛡️ File Security
+
+File changes are protected by an explicit approval gate.
+
+Before COGNIX creates or modifies a file, it shows the requested action and asks for confirmation. Executable and script formats receive a **HIGH-RISK** warning.
+
+Supported high-risk examples include:
+
+- `.ps1`
+- `.bat`
+- `.cmd`
+- `.vbs`
+- `.js`
+- `.exe`
+- `.dll`
+
+Creating or modifying a file **does not execute it automatically**. File writing and file execution are separate operations.
 
 ## 🛡️ Security
 
