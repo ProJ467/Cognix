@@ -8,7 +8,7 @@
 
 Before running COGNIX, you need to configure your OpenAI API key.
 
-In **line ██**, type your OpenAI API key where the program asks for it.
+In **line 70**, type your OpenAI API key where the program asks for it.
 
 ⚠️ **Never publish your API key on GitHub or share it with anyone.** Use an environment variable or another secure method whenever possible.
 
