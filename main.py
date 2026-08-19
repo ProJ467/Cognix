@@ -2,6 +2,7 @@
 
 import json
 
+import memory
 import memory_commands
 import main_core as core
 from main_core import *  # noqa: F401,F403
