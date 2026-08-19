@@ -21,3 +21,8 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+
+# Cognix local configuration and memory
+cognix_memory.json
+cognix_config.json
+.env
